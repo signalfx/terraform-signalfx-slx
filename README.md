@@ -49,6 +49,8 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 
 # TODO
 
+* Show what this does visually
+* Write some accompanying content
 * Get it on the public repo
 * Generate detectors
 * Template vars?
