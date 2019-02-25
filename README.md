@@ -2,7 +2,7 @@
 
 This module provides convenient tooling for creating detectors, dashboards and other assets using best practices on the SignalFx platform.
 
-![alt text](https://raw.githubusercontent.com/signalfx/terraform-provider-signalfx/master/images/example.png)
+![Example Dashboard](https://raw.githubusercontent.com/signalfx/terraform-signalfx-slx/master/images/example.png)
 
 # Features
 
