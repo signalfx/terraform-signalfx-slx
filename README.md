@@ -19,7 +19,8 @@ To use it, your service(s) will need to isolate their SLI metrics and any define
 ```
 # You can invoke this many times, once for each service!
 module "service_a_slx" {
-  source = "signalslx"
+  source = "github.com/signalfx/terraform-signalfx-slx"
+  version = "0.0.1"
 
   successful_operations_sli_count_query = "data('demo.trans.count').sum()"
   total_operations_sli_count_query = "data('demo.trans.count').sum()"
@@ -61,14 +62,11 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 # TODO
 
 * Write some accompanying content
-* Get it on the public repo
 * Generate detectors
 * Template vars?
-* Add watermarks
 * Chart<>Detector Linking
 * Team stuff
 * Get more opinionated on dashboards, like don't mixin but use groups-per-service
-* Use a dashboard-group per service, put red here, have other things use the id to add?
 * Deploys
 * More IA (service dashboards, etc)
 * MOAR?
