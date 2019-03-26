@@ -14,7 +14,11 @@ By using this module you get the following great features:
 
 # How to Use It
 
-To use it, your service(s) will need to isolate their SLI metrics and any defined SLO thresholds. You can then include this module in your existing Terraform like so:
+First, install the [SignalFx Terraform provider](https://github.com/signalfx/terraform-provider-signalfx).
+
+Next, your service(s) will need to isolate their SLI metrics and any defined SLO thresholds.
+
+To create resources using this module, you can then include it in your existing Terraform like so:
 
 ```
 # You can invoke this many times, once for each service!
