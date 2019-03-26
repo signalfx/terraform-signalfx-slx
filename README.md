@@ -15,6 +15,7 @@ By using this module you get the following great features:
 * industry best-practices layout with [RED metrics](https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/) at the top
 * easy to interpret, threshold-based coloring of "instant" values
 * on-chart watermarks showing SLO targets for improved operator context
+* support for adding your own important charts below the built in content
 
 # How to Use It
 
