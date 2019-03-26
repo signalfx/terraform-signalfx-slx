@@ -9,7 +9,7 @@ This module provides convenient tooling for creating detectors, dashboards and o
 By using this module you get the following great features:
 
 * consistent, per-service dashboard for all of your services with
-* industry best-practices layout with [RED metrics](https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/) at the total_operations_sli_count_query
+* industry best-practices layout with [RED metrics](https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/) at the top
 * easy to interpret, threshold-based coloring of "instant" values
 
 # How to Use It
