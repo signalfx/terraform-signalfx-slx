@@ -4,6 +4,8 @@ This module provides convenient tooling for creating detectors, dashboards and o
 
 ![Example Dashboard](images/example.png?raw=true)
 
+**Note:** This module is considered "alpha" content and should not yet be relied on for production usage. See the [TODO section](#TODO) below.
+
 # Features
 
 By using this module you get the following great features:
