@@ -1,5 +1,6 @@
 resource "signalfx_time_chart" "slx_success_ratio_chart" {
   name = "Success Ratio"
+  description = "Ratio of success to errors. Target SLO of ${var.operation_success_ratio_slo_target}"
 
   program_text = <<-EOF
         A = ${var.successful_operations_sli_count_query}.publish('Successful Operations', enable=False)
@@ -16,10 +17,16 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
     low_watermark = "${var.operation_success_ratio_slo_target}"
     low_watermark_label = "Target SLO"
   }
+
+  viz_options {
+    label = "Success Ratio"
+    value_suffix = "%"
+  }
 }
 
 resource "signalfx_time_chart" "slx_operation_duration_chart" {
   name = "Operation Duration"
+  description = "Target SLO ofn ${var.operation_time_slo_target}"
 
   program_text = <<-EOF
         A = ${var.operation_time_sli_query}.publish('Operation Duration')
@@ -69,6 +76,11 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
         EOF
 
     description = "Current Value Against SLO (${var.operation_success_ratio_slo_target})"
+
+    viz_options {
+      label = "Success Ratio"
+      value_suffix = "%"
+    }
 
     refresh_interval = 1
     max_precision = 2
