@@ -26,7 +26,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
 
 resource "signalfx_time_chart" "slx_operation_duration_chart" {
   name = "Operation Duration"
-  description = "Target SLO ofn ${var.operation_time_slo_target}"
+  description = "Target SLO of ${var.operation_time_slo_target} ${var.operation_time_sli_unit}s"
 
   program_text = <<-EOF
         A = ${var.operation_time_sli_query}.publish('Operation Duration')
@@ -75,7 +75,7 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
         C = ((A/B)*100).publish(label='Success Ratio')
         EOF
 
-    description = "Current Value Against SLO (${var.operation_success_ratio_slo_target})"
+    description = "Current Value Against SLO (${var.operation_success_ratio_slo_target}%)"
 
     viz_options {
       label = "Success Ratio"
@@ -105,7 +105,7 @@ resource "signalfx_single_value_chart" "slx_operation_duration_instant_chart" {
         A = ${var.operation_time_sli_query}.publish('Operation Duration')
         EOF
 
-    description = "Current Value Against SLO (${var.operation_time_slo_target})"
+    description = "Current Value Against SLO (${var.operation_time_slo_target} ${var.operation_time_sli_unit}s)"
 
     viz_options {
       label = "Operation Duration"

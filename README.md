@@ -13,9 +13,11 @@ By using this module you get the following great features:
 * externally managed template for generating per-service dashboards and detectors (using this Terraform module)
   * versions so you can opt in to new behavior at your own pace
 * industry best-practices layout with [RED metrics](https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/) at the top
-* context improvement features
-  * easy to interpret, threshold-based coloring of "instant" values
+* Numerous features from extensive dashboard research
+  * Units wherever applicable to ease comprehension
+  * Per-user opt-in for color blind modes
   * on-chart watermarks showing SLO targets
+  * easy to interpret, threshold-based coloring of "instant" values
 * support for adding your own important charts below the built in content
 
 # How to Use It
