@@ -1,6 +1,6 @@
 resource "signalfx_time_chart" "slx_success_ratio_chart" {
   name = "Success Ratio"
-  description = "Ratio of success to errors. Target SLO of ${var.operation_success_ratio_slo_target}"
+  description = "Ratio of success to errors. Target SLO of ${var.operation_success_ratio_slo_target}%"
 
   program_text = <<-EOF
         A = ${var.successful_operations_sli_count_query}.publish('Successful Operations', enable=False)

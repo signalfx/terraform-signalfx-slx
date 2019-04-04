@@ -82,3 +82,8 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 * Deploys
 * More IA (service dashboards, etc)
 * MOAR?
+* Normalize subtitles SLO formats
+
+# PROBLEMS
+
+* Can't use secondary visualization of Lineary because the labels overlap when super close.
