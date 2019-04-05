@@ -89,7 +89,6 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 * Write some accompanying content
 * Template vars?
 * Chart<>Detector Linking
-* Team stuff
 * Get more opinionated on dashboards, like don't mixin but use groups-per-service
 * Deploys
 * More IA (service dashboards, etc)
