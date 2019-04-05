@@ -1,6 +1,6 @@
 resource "signalfx_time_chart" "slx_success_ratio_chart" {
   name = "Success Ratio"
-  description = "Ratio of success to errors. Target SLO of ${var.operation_success_ratio_slo_target}%"
+  description = "Ratio of success to errors."
 
   program_text = <<-EOF
         A = ${var.successful_operations_sli_count_query}.publish(label='Successful Operations', enable=False)
@@ -15,7 +15,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
 
   axis_left {
     low_watermark = "${var.operation_success_ratio_slo_target}"
-    low_watermark_label = "Target SLO"
+    low_watermark_label = "Target SLO ${var.operation_success_ratio_slo_target}%"
   }
 
   viz_options {
@@ -26,7 +26,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
 
 resource "signalfx_time_chart" "slx_operation_duration_chart" {
   name = "Operation Duration"
-  description = "Target SLO of ${var.operation_time_slo_target} ${var.operation_time_sli_unit}s"
+  description = "Total duration of operations"
 
   program_text = <<-EOF
         A = ${var.operation_time_sli_query}.publish(label='Operation Duration')
@@ -39,7 +39,7 @@ resource "signalfx_time_chart" "slx_operation_duration_chart" {
 
   axis_left {
     low_watermark = "${var.operation_time_slo_target}"
-    low_watermark_label = "Target SLO"
+    low_watermark_label = "Target SLO ${var.operation_time_slo_target} ${var.operation_time_sli_unit}s"
   }
 
   viz_options {
@@ -75,7 +75,7 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
         C = ((A/B)*100).publish(label='Success Ratio')
         EOF
 
-    description = "Current Value Against SLO (${var.operation_success_ratio_slo_target}%)"
+    description = "Current value colored by SLO (${var.operation_success_ratio_slo_target}%)"
 
     viz_options {
       label = "Success Ratio"
@@ -105,7 +105,7 @@ resource "signalfx_single_value_chart" "slx_operation_duration_instant_chart" {
         A = ${var.operation_time_sli_query}.publish(label='Operation Duration')
         EOF
 
-    description = "Current Value Against SLO (${var.operation_time_slo_target} ${var.operation_time_sli_unit}s)"
+    description = "Current value colored by SLO (${var.operation_time_slo_target} ${var.operation_time_sli_unit}s)"
 
     viz_options {
       label = "Operation Duration"
