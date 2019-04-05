@@ -20,6 +20,8 @@ By using this module you get the following great features:
   * on-chart watermarks showing SLO targets
   * easy to interpret, threshold-based coloring of "instant" values
 * team links for [dashboards and detectors](https://docs.signalfx.com/en/latest/managing/teams/link-content.html)
+* alerting based on SLO violations
+  * configurable (defaults to 1m) notification of SLO violations
   * detectors notify team to leverage [notification policies](https://docs.signalfx.com/en/latest/managing/teams/team-notifications.html)
 * support for adding your own important charts below the built in content
 
