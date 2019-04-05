@@ -3,8 +3,8 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
   description = "Ratio of success to errors. Target SLO of ${var.operation_success_ratio_slo_target}%"
 
   program_text = <<-EOF
-        A = ${var.successful_operations_sli_count_query}.publish('Successful Operations', enable=False)
-        B = ${var.total_operations_sli_count_query}.publish('Total Operations', enable=False)
+        A = ${var.successful_operations_sli_count_query}.publish(label='Successful Operations', enable=False)
+        B = ${var.total_operations_sli_count_query}.publish(label='Total Operations', enable=False)
         C = ((A/B)*100).publish(label='Success Ratio')
         EOF
 
@@ -29,7 +29,7 @@ resource "signalfx_time_chart" "slx_operation_duration_chart" {
   description = "Target SLO of ${var.operation_time_slo_target} ${var.operation_time_sli_unit}s"
 
   program_text = <<-EOF
-        A = ${var.operation_time_sli_query}.publish('Operation Duration')
+        A = ${var.operation_time_sli_query}.publish(label='Operation Duration')
         EOF
 
   time_range = "-15m"
@@ -52,7 +52,7 @@ resource "signalfx_time_chart" "slx_total_errors_chart" {
   name = "Rate of Errors"
 
   program_text = <<-EOF
-        A = ${var.error_operations_sli_count_query}.publish('Errors')
+        A = ${var.error_operations_sli_count_query}.publish(label='Errors')
         EOF
 
   time_range = "-15m"
@@ -70,8 +70,8 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
     name = "Success Ratio"
 
     program_text = <<-EOF
-        A = ${var.successful_operations_sli_count_query}.publish('Successful Operations', enable=False)
-        B = ${var.total_operations_sli_count_query}.publish('Total Operations', enable=False)
+        A = ${var.successful_operations_sli_count_query}.publish(label='Successful Operations', enable=False)
+        B = ${var.total_operations_sli_count_query}.publish(label='Total Operations', enable=False)
         C = ((A/B)*100).publish(label='Success Ratio')
         EOF
 
@@ -102,7 +102,7 @@ resource "signalfx_single_value_chart" "slx_operation_duration_instant_chart" {
     name = "Operation Duration"
 
     program_text = <<-EOF
-        A = ${var.operation_time_sli_query}.publish('Operation Duration')
+        A = ${var.operation_time_sli_query}.publish(label='Operation Duration')
         EOF
 
     description = "Current Value Against SLO (${var.operation_time_slo_target} ${var.operation_time_sli_unit}s)"
@@ -132,7 +132,7 @@ resource "signalfx_single_value_chart" "slx_total_errors_instant_chart" {
     name = "Error Rate"
 
     program_text = <<-EOF
-        A = ${var.error_operations_sli_count_query}.publish('Errors')
+        A = ${var.error_operations_sli_count_query}.publish(label='Errors')
         EOF
 
     description = "Current Error Rate"
@@ -140,25 +140,13 @@ resource "signalfx_single_value_chart" "slx_total_errors_instant_chart" {
     refresh_interval = 1
     max_precision = 2
     is_timestamp_hidden = true
-
-    color_by = "Scale"
-    color_scale = [
-      {
-        gt = "0",
-        color =  "orange"
-      },
-      {
-        lte = "0",
-        color =  "gray"
-      }
-    ]
 }
 
 resource "signalfx_time_chart" "slx_total_rate_chart" {
   name = "Rate of Operations"
 
   program_text = <<-EOF
-        A = ${var.total_operations_sli_count_query}.publish('Operations')
+        A = ${var.total_operations_sli_count_query}.publish(label='Operations')
         EOF
 
   time_range = "-15m"

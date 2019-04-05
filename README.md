@@ -35,6 +35,7 @@ module "service_a_slx" {
   source = "github.com/signalfx/terraform-signalfx-slx"
   version = "0.0.1"
 
+  responsible_team = "abc123"
   successful_operations_sli_count_query = "data('demo.trans.count').sum()"
   total_operations_sli_count_query = "data('demo.trans.count').sum()"
   error_operations_sli_count_query = "data('demo.trans.count', filter=filter('error', 'true')).sum()"
@@ -57,9 +58,15 @@ resource "signalfx_time_chart" "someother_chart" {
     show_data_markers = true
 }
 
+resource "signalfx_dashboard_group" "slx_example" {
+    name = "SLx Example"
+    description = "Cool dashboard group"
+    teams = ["abc123"]
+}
+
 resource "signalfx_dashboard" "slx_prefixed_thing" {
     name = "SLx Test Prefix Dashboard"
-    dashboard_group = "DzYdCvcAgAA"
+    dashboard_group = "${signalfx_dashboard_group.slx_example.id}"
     time_range = "-15m"
 
     grid {
@@ -75,7 +82,6 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 # TODO
 
 * Write some accompanying content
-* Generate detectors
 * Template vars?
 * Chart<>Detector Linking
 * Team stuff
@@ -88,3 +94,4 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 # PROBLEMS
 
 * Can't use secondary visualization of Lineary because the labels overlap when super close.
+* Error rate color?

@@ -1,3 +1,7 @@
+variable "responsible_team" {
+  description = "The ID of the team that owns this service"
+}
+
 variable "successful_operations_sli_count_query" {
   description = "The stream query for the monitored service's count of successful operations"
 }
