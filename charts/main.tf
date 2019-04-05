@@ -11,7 +11,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
   time_range = "-15m"
 
   plot_type         = "LineChart"
-  show_data_markers = true
+  show_data_markers = false
 
   axis_left {
     low_watermark = "${var.operation_success_ratio_slo_target}"
@@ -35,7 +35,7 @@ resource "signalfx_time_chart" "slx_operation_duration_chart" {
   time_range = "-15m"
 
   plot_type         = "LineChart"
-  show_data_markers = true
+  show_data_markers = false
 
   axis_left {
     low_watermark = "${var.operation_time_slo_target}"
@@ -58,7 +58,7 @@ resource "signalfx_time_chart" "slx_total_errors_chart" {
   time_range = "-15m"
 
   plot_type         = "LineChart"
-  show_data_markers = true
+  show_data_markers = false
 
   viz_options {
     label = "Errors"
@@ -164,5 +164,5 @@ resource "signalfx_time_chart" "slx_total_rate_chart" {
   time_range = "-15m"
 
   plot_type         = "LineChart"
-  show_data_markers = true
+  show_data_markers = false
 }
