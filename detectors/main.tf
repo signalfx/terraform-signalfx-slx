@@ -1,5 +1,5 @@
 resource "signalfx_detector" "slx_success_ratio_slo_detector" {
-    name = "Success Ratio SLO"
+    name = "${var.service_name} - Success Ratio SLO"
     description = "Success Ratio is below SLO"
     teams = ["${var.responsible_team}"]
     max_delay = 30
@@ -8,7 +8,7 @@ A = ${var.successful_operations_sli_count_query}.publish(label='Successful Opera
 B = ${var.total_operations_sli_count_query}.publish(label='Total Operations', enable=False)
 C = ((A/B)*100).publish(label='Success Ratio')
 
-detect(when(C < ${var.operation_success_ratio_slo_target}, lasting='${var.operation_success_ratio_slo_target}')).publish('Success Ratio Detector')
+detect(when(C < ${var.operation_success_ratio_slo_target}, lasting='${var.operation_success_ratio_slo_duration}')).publish('Success Ratio Detector')
     EOF
 
     rule {
@@ -20,7 +20,7 @@ detect(when(C < ${var.operation_success_ratio_slo_target}, lasting='${var.operat
 }
 
 resource "signalfx_detector" "slx_operation_duration_slo_detector" {
-    name = "Operation Duration SLO"
+    name = "${var.service_name} - Operation Duration SLO"
     description = "Operation Duration is below SLO"
     teams = ["${var.responsible_team}"]
     max_delay = 30

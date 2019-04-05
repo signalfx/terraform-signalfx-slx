@@ -1,6 +1,7 @@
 module "charts" {
   source = "./charts"
 
+  service_name                          = "${var.service_name}"
   responsible_team                      = "${var.responsible_team}"
   successful_operations_sli_count_query = "${var.successful_operations_sli_count_query}"
   total_operations_sli_count_query      = "${var.total_operations_sli_count_query}"
@@ -14,6 +15,7 @@ module "charts" {
 module "detectors" {
   source = "./detectors"
 
+  service_name                          = "${var.service_name}"
   responsible_team                      = "${var.responsible_team}"
   successful_operations_sli_count_query = "${var.successful_operations_sli_count_query}"
   total_operations_sli_count_query      = "${var.total_operations_sli_count_query}"

@@ -1,3 +1,7 @@
+variable "service_name" {
+  description = "Name of the service being monitored"
+}
+
 variable "responsible_team" {
   description = "The ID of the team that owns this service"
 }

@@ -39,6 +39,7 @@ module "service_a_slx" {
   source = "github.com/signalfx/terraform-signalfx-slx"
   version = "0.0.1"
 
+  service_name = "FartsAPI"
   responsible_team = "abc123"
   successful_operations_sli_count_query = "data('demo.trans.count').sum()"
   total_operations_sli_count_query = "data('demo.trans.count').sum()"
