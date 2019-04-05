@@ -21,5 +21,7 @@ module "detectors" {
   operation_time_sli_query              = "${var.operation_time_sli_query}"
   operation_time_sli_unit               = "${var.operation_time_sli_unit}"
   operation_time_slo_target             = "${var.operation_time_slo_target}"
+  operation_time_slo_duration           = "${var.operation_time_slo_duration}"
   operation_success_ratio_slo_target    = "${var.operation_success_ratio_slo_target}"
+  operation_success_ratio_slo_duration  = "${var.operation_success_ratio_slo_duration}"
 }

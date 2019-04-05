@@ -13,12 +13,14 @@ By using this module you get the following great features:
 * externally managed template for generating per-service dashboards and detectors (using this Terraform module)
   * versions so you can opt in to new behavior at your own pace
 * industry best-practices layout with [RED metrics](https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/) at the top
-* Numerous features from extensive dashboard research
-  * Units wherever applicable to ease comprehension
-  * Uses pleasing wider-than-tall 3-wide grid
-  * Per-user opt-in for color blind modes
+* numerous best-practices from extensive dashboard research
+  * units wherever applicable to ease comprehension
+  * pleasing wider-than-tall 3-wide grid
+  * per-user opt-in for color blind modes
   * on-chart watermarks showing SLO targets
   * easy to interpret, threshold-based coloring of "instant" values
+* team links for [dashboards and detectors](https://docs.signalfx.com/en/latest/managing/teams/link-content.html)
+  * detectors notify team to leverage [notification policies](https://docs.signalfx.com/en/latest/managing/teams/team-notifications.html)
 * support for adding your own important charts below the built in content
 
 # How to Use It

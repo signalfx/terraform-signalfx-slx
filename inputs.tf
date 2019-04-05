@@ -26,6 +26,16 @@ variable "operation_time_slo_target" {
   description = "A constant value representing the desired (SLO) duration target"
 }
 
+variable "operation_time_slo_duration" {
+  description = "How long to wait before notifying about operation time SLO violation"
+  default = "1m"
+}
+
 variable "operation_success_ratio_slo_target" {
   description = "A constant value representing the desired (SLO) success ratio"
+}
+
+variable "operation_success_ratio_slo_duration" {
+  description = "How long to wait before notifying about success ratio SLO violation"
+  default = "1m"
 }
