@@ -92,7 +92,7 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 * Get more opinionated on dashboards, like don't mixin but use groups-per-service
 * Deploys
 * More IA (service dashboards, etc)
-* MOAR?
+* Runbooks
 
 # PROBLEMS
 
