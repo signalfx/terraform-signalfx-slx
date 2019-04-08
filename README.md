@@ -52,6 +52,7 @@ module "service_a_slx" {
   operation_success_ratio_slo_target = 100
 }
 
+# You can also define your own charts to add to the end!
 resource "signalfx_time_chart" "someother_chart" {
     name = "Custom Chart!"
 
@@ -65,12 +66,14 @@ resource "signalfx_time_chart" "someother_chart" {
     show_data_markers = true
 }
 
+# Make a dashboard group to put it in
 resource "signalfx_dashboard_group" "slx_example" {
     name = "SLx Example"
     description = "Cool dashboard group"
     teams = ["abc123"]
 }
 
+# Create the actual dashboard using the output of the module. (See `chart_ids`)
 resource "signalfx_dashboard" "slx_prefixed_thing" {
     name = "SLx Test Prefix Dashboard"
     dashboard_group = "${signalfx_dashboard_group.slx_example.id}"
