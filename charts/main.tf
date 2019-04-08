@@ -14,6 +14,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
   show_data_markers = false
 
   axis_left {
+    max_value = 100
     low_watermark = "${var.operation_success_ratio_slo_target}"
     low_watermark_label = "Target SLO ${var.operation_success_ratio_slo_target}%"
   }

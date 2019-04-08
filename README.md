@@ -14,7 +14,7 @@ By using this module you get the following great features:
   * versions so you can opt in to new behavior at your own pace
 * industry best-practices layout with [RED metrics](https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/) at the top
 * numerous best-practices from extensive dashboard research
-  * units wherever applicable to ease comprehension
+  * units and bounds wherever applicable to ease comprehension
   * pleasing wider-than-tall 3-wide grid
   * per-user opt-in for color blind modes
   * on-chart watermarks showing SLO targets
