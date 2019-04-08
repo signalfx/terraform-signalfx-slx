@@ -67,7 +67,7 @@ resource "signalfx_time_chart" "slx_total_errors_chart" {
 }
 
 resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
-    name = "Success Ratio"
+    name = "Current Success Ratio"
 
     program_text = <<-EOF
         A = ${var.successful_operations_sli_count_query}.publish(label='Successful Operations', enable=False)
@@ -75,7 +75,7 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
         C = ((A/B)*100).publish(label='Success Ratio')
         EOF
 
-    description = "Current value colored by SLO (${var.operation_success_ratio_slo_target}%)"
+    description = "Colored by SLO (${var.operation_success_ratio_slo_target}%)"
 
     viz_options {
       label = "Success Ratio"
@@ -99,13 +99,13 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
 }
 
 resource "signalfx_single_value_chart" "slx_operation_duration_instant_chart" {
-    name = "Operation Duration"
+    name = "Current Operation Duration"
 
     program_text = <<-EOF
         A = ${var.operation_time_sli_query}.publish(label='Operation Duration')
         EOF
 
-    description = "Current value colored by SLO (${var.operation_time_slo_target} ${var.operation_time_sli_unit}s)"
+    description = "Colored by SLO (${var.operation_time_slo_target} ${var.operation_time_sli_unit}s)"
 
     viz_options {
       label = "Operation Duration"
@@ -129,17 +129,22 @@ resource "signalfx_single_value_chart" "slx_operation_duration_instant_chart" {
 }
 
 resource "signalfx_single_value_chart" "slx_total_errors_instant_chart" {
-    name = "Error Rate"
+    name = "Current Error Rate"
 
     program_text = <<-EOF
         A = ${var.error_operations_sli_count_query}.publish(label='Errors')
         EOF
 
-    description = "Current Error Rate"
+    description = "Rate of Errors"
 
     refresh_interval = 1
     max_precision = 2
     is_timestamp_hidden = true
+
+    viz_options {
+      label = "Errors"
+      color = "orange"
+    }
 }
 
 resource "signalfx_time_chart" "slx_total_rate_chart" {

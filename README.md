@@ -97,4 +97,3 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 # PROBLEMS
 
 * Can't use secondary visualization of Linear because the labels overlap when super close.
-* Error rate color?
