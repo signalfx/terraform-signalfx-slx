@@ -31,6 +31,8 @@ First, install the [SignalFx Terraform provider](https://github.com/signalfx/ter
 
 Next, your service(s) will need to isolate their SLI metrics and any defined SLO thresholds.
 
+**Note:** When you specify the queries, remember to specify the [appropriate rollup policy](https://docs.signalfx.com/en/latest/reference/analytics-docs/intro-analytics.html#rollup-policies). Depending on metric type and meaning, you might want to use average, sum, min or max!
+
 To create resources using this module, you can then include it in your existing Terraform like so:
 
 ```
