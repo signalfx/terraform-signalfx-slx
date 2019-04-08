@@ -39,7 +39,7 @@ To create resources using this module, you can then include it in your existing 
 # You can invoke this many times, once for each service!
 module "service_a_slx" {
   source = "github.com/signalfx/terraform-signalfx-slx"
-  version = "0.0.1"
+  version = "0.0.2"
 
   service_name = "FartsAPI"
   responsible_team = "abc123"
