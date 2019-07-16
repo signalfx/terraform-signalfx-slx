@@ -60,7 +60,7 @@ resource "signalfx_time_chart" "someother_chart" {
         A = data("cpu.utilization").publish(label="CPU Utilization")
         EOF
 
-    time_range = "-15m"
+    time_range = 900
 
     plot_type = "LineChart"
     show_data_markers = true
@@ -80,11 +80,10 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
     time_range = "-15m"
 
     grid {
-        chart_ids = ["${concat(module.service_a_slx.charts,
-                signalfx_time_chart.someother_chart.*.id)}"]
+        chart_ids = concat(module.service_a_slx.charts,
+                signalfx_time_chart.someother_chart.*.id)
         width = 4
         height = 1
-        start_row = 0
     }
 }
 ```
