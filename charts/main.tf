@@ -175,8 +175,9 @@ resource "signalfx_time_chart" "error_budget_hourly_chart" {
   axes_include_zero = true
 
   axis_left {
-    low_watermark = "${100.0 - var.operation_success_ratio_slo_target}"
-    low_watermark_label = "Target Error Budget ${100.0 - var.operation_success_ratio_slo_target}"
+    low_watermark = "${var.operation_success_ratio_slo_target / 100}"
+    low_watermark_label = "Target SLO = ${var.operation_success_ratio_slo_target}%"
+    max_value = 1
   }
 
   viz_options {
