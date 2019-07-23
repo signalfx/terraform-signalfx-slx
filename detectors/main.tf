@@ -21,13 +21,13 @@ detect(when(C < ${var.operation_success_ratio_slo_target}, lasting='${var.operat
 
 resource "signalfx_detector" "slx_operation_duration_slo_detector" {
     name = "${var.service_name} - Operation Duration SLO"
-    description = "Operation Duration is below SLO"
+    description = "Operation Duration is above SLO"
     teams = ["${var.responsible_team}"]
     max_delay = 30
     program_text = <<-EOF
 A = ${var.operation_time_sli_query}.publish(label='Operation Duration')
 
-detect(when(A < ${var.operation_time_slo_target}, lasting='${var.operation_success_ratio_slo_duration}')).publish('Operation Duration Detector')
+detect(when(A > ${var.operation_time_slo_target}, lasting='${var.operation_success_ratio_slo_duration}')).publish('Operation Duration Detector')
     EOF
 
     rule {

@@ -27,7 +27,7 @@ By using this module you get the following great features:
 
 # How to Use It
 
-First, install the [SignalFx Terraform provider](https://github.com/signalfx/terraform-provider-signalfx).
+First, install the [SignalFx Terraform provider](https://github.com/terraform-providers/terraform-provider-signalfx).
 
 Next, your service(s) will need to isolate their SLI metrics and any defined SLO thresholds.
 
