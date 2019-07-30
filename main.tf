@@ -1,5 +1,5 @@
-module "charts" {
-  source = "./charts"
+module "dashboards" {
+  source = "./dashboards"
 
   service_name                          = "${var.service_name}"
   responsible_team                      = "${var.responsible_team}"
