@@ -13,7 +13,7 @@ By using this module you get the following great features:
 * externally managed template for generating per-service dashboards and detectors (using this Terraform module)
   * versions so you can opt in to new behavior at your own pace
 * industry best-practices layout with [RED metrics](https://www.weave.works/blog/the-red-method-key-metrics-for-microservices-architecture/) at the top
-* numerous best-practices from extensive dashboard research (parts [1](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design.html), 2 and 3)
+* numerous best-practices from extensive dashboard research (parts [1](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design.html), [2](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design-p2.html), [3](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design-p3.html), and [4](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design-p4.html).)
   * units and bounds wherever applicable to ease comprehension
   * pleasing wider-than-tall 3-wide grid
   * per-user opt-in for color blind modes
@@ -27,7 +27,7 @@ By using this module you get the following great features:
 
 # How to Use It
 
-First, install the [SignalFx Terraform provider](https://github.com/terraform-providers/terraform-provider-signalfx).
+You'll be using the [SignalFx Terraform provider](https://github.com/terraform-providers/terraform-provider-signalfx).
 
 Next, your service(s) will need to isolate their SLI metrics and any defined SLO thresholds.
 
