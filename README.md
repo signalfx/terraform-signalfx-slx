@@ -38,19 +38,19 @@ To create resources using this module, you can then include it in your existing 
 
 ```
 # You can invoke this many times, once for each service!
-module "service_a_slx" {
+module "service_fartsapi_slx" {
   source = "github.com/signalfx/terraform-signalfx-slx"
-  version = "0.0.2"
+  version = "0.0.1"
 
-  service_name = "FartsAPI"
-  responsible_team = "abc123"
-  successful_operations_sli_count_query = "data('demo.trans.count').sum()"
-  total_operations_sli_count_query = "data('demo.trans.count').sum()"
-  error_operations_sli_count_query = "data('demo.trans.count', filter=filter('error', 'true')).sum()"
-  operation_time_sli_query = "data('demo.trans.latency').percentile(pct=95)"
-  operation_time_sli_unit = "Millisecond"
-  operation_time_slo_target = 250
-  operation_success_ratio_slo_target = 100
+  service_name                          = "FartAPI"
+  responsible_team                      = "abc123"
+  successful_operations_sli_count_query = "data('request_duration_millis_count', filter=filter('code', '200')).sum()"
+  total_operations_sli_count_query      = "data('request_duration_millis_count').sum()"
+  error_operations_sli_count_query      = "data('errors_encountered_total').sum()"
+  operation_time_sli_query              = "data('request_duration_millis_quantile', filter=filter('quantile', '0.990000')).mean()"
+  operation_time_sli_unit               = "Millisecond"
+  operation_time_slo_target             = 500
+  operation_success_ratio_slo_target    = 97.00
 }
 
 # You can also define your own charts to add to the end!
