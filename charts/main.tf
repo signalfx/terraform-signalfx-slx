@@ -8,8 +8,6 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
         C = ((A/B)*100).publish(label='Success Ratio')
         EOF
 
-  time_range = 900
-
   plot_type         = "LineChart"
   show_data_markers = false
 
@@ -33,8 +31,6 @@ resource "signalfx_time_chart" "slx_operation_duration_chart" {
         A = ${var.operation_time_sli_query}.publish(label='Operation Duration')
         EOF
 
-  time_range = 900
-
   plot_type         = "LineChart"
   show_data_markers = false
 
@@ -55,8 +51,6 @@ resource "signalfx_time_chart" "slx_total_errors_chart" {
   program_text = <<-EOF
         A = ${var.error_operations_sli_count_query}.publish(label='Errors')
         EOF
-
-  time_range = 900
 
   plot_type         = "LineChart"
   show_data_markers = false
@@ -152,8 +146,6 @@ resource "signalfx_time_chart" "slx_total_rate_chart" {
         A = ${var.total_operations_sli_count_query}.publish(label='Operations')
         EOF
 
-  time_range = 900
-
   plot_type         = "LineChart"
   show_data_markers = false
 }
@@ -167,8 +159,6 @@ resource "signalfx_time_chart" "error_budget_hourly_chart" {
     B = ${var.total_operations_sli_count_query}.sum(cycle='hour', cycle_start='0m', partial_values=True).publish(label='Total Operations', enable=False)
     C = (((A/B)/${100.0 - var.operation_success_ratio_slo_target})*100).publish(label='Percentage of Error Budget Consumed')
     EOF
-
-  time_range = 900
 
   plot_type         = "ColumnChart"
   show_data_markers = false
