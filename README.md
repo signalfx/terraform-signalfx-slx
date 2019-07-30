@@ -16,14 +16,17 @@ By using this module you get the following great features:
 * numerous best-practices from extensive dashboard research (parts [1](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design.html), [2](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design-p2.html), [3](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design-p3.html), and [4](http://onemogin.com/observability/dashboards/practitioners-guide-to-system-dashboard-design-p4.html))
   * units and bounds wherever applicable to ease comprehension
   * pleasing wider-than-tall 3-wide grid
-  * per-user opt-in for color blind modes
+  * per-user opt-in for [color blind modes](https://docs.signalfx.com/en/latest/getting-started/get-around-ui.html#user-profile-avatar-and-color-theme)
   * on-chart watermarks showing SLO targets
   * easy to interpret, threshold-based coloring of "instant" values
 * team links for [dashboards and detectors](https://docs.signalfx.com/en/latest/managing/teams/link-content.html)
 * alerting based on SLO violations
   * configurable (defaults to 1m) notification of SLO violations
   * detectors notify team to leverage [notification policies](https://docs.signalfx.com/en/latest/managing/teams/team-notifications.html)
-* error budget (hourly) notification and visualization (as a function of error ratio)
+* error budget support
+  * uses the error ratio (97% sucess SLO gives a 3% error budget)
+  * visualization on main dashboard
+  * detector that issues `info` level alerts to team
 * support for adding your own important charts below the built in content
 
 # How to Use It
