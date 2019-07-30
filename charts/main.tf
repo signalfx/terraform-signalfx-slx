@@ -88,11 +88,11 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
     is_timestamp_hidden = true
     color_by = "Scale"
     color_scale {
-      lt = "${var.operation_success_ratio_slo_target}",
+      lt = "${var.operation_success_ratio_slo_target}"
       color =  "orange"
     }
     color_scale {
-      gte = "${var.operation_success_ratio_slo_target}",
+      gte = "${var.operation_success_ratio_slo_target}"
       color = "green"
     }
 }
@@ -116,11 +116,11 @@ resource "signalfx_single_value_chart" "slx_operation_duration_instant_chart" {
     is_timestamp_hidden = true
     color_by = "Scale"
     color_scale {
-      gt = "${var.operation_time_slo_target}",
+      gt = "${var.operation_time_slo_target}"
       color =  "orange"
     }
     color_scale {
-      lte = "${var.operation_time_slo_target}",
+      lte = "${var.operation_time_slo_target}"
       color = "green"
     }
 }
