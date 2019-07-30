@@ -23,6 +23,7 @@ By using this module you get the following great features:
 * alerting based on SLO violations
   * configurable (defaults to 1m) notification of SLO violations
   * detectors notify team to leverage [notification policies](https://docs.signalfx.com/en/latest/managing/teams/team-notifications.html)
+* error budget (hourly) notification and visualization (as a function of error ratio)
 * support for adding your own important charts below the built in content
 
 # How to Use It
