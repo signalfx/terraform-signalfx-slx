@@ -1,80 +1,80 @@
 module "charts" {
   source = "../charts"
 
-  service_name                          = "${var.service_name}"
-  responsible_team                      = "${var.responsible_team}"
-  successful_operations_sli_count_query = "${var.successful_operations_sli_count_query}"
-  total_operations_sli_count_query      = "${var.total_operations_sli_count_query}"
-  error_operations_sli_count_query      = "${var.error_operations_sli_count_query}"
-  operation_time_sli_query              = "${var.operation_time_sli_query}"
-  operation_time_sli_unit               = "${var.operation_time_sli_unit}"
-  operation_time_slo_target             = "${var.operation_time_slo_target}"
-  operation_success_ratio_slo_target    = "${var.operation_success_ratio_slo_target}"
-  operation_slo_success_ratio_detector_id  = "${var.operation_slo_success_ratio_detector_id}"
+  service_name                          = var.service_name
+  responsible_team                      = var.responsible_team
+  successful_operations_sli_count_query = var.successful_operations_sli_count_query
+  total_operations_sli_count_query      = var.total_operations_sli_count_query
+  error_operations_sli_count_query      = var.error_operations_sli_count_query
+  operation_time_sli_query              = var.operation_time_sli_query
+  operation_time_sli_unit               = var.operation_time_sli_unit
+  operation_time_slo_target             = var.operation_time_slo_target
+  operation_success_ratio_slo_target    = var.operation_success_ratio_slo_target
+  operation_slo_success_ratio_detector_id  = var.operation_slo_success_ratio_detector_id
 }
 
 resource "signalfx_dashboard_group" "slx_dashboard_group" {
     name = "${var.service_name} Service Dashboard"
     description = "Dashboards for ${var.service_name}"
-    teams = ["${var.responsible_team}"]
+    teams = [var.responsible_team]
 }
 
 resource "signalfx_dashboard" "slx_primary_dashboard" {
   name            = "${var.service_name} SLx Metrics"
-  dashboard_group = "${signalfx_dashboard_group.slx_dashboard_group.id}"
+  dashboard_group = signalfx_dashboard_group.slx_dashboard_group.id
   time_range      = "-1h"
 
   chart {
-    chart_id = "${module.charts.slx_success_ratio_chart}"
+    chart_id = module.charts.slx_success_ratio_chart
     width = 4
     height = 1
     row = 0
     column = 0
   }
   chart {
-    chart_id = "${module.charts.slx_operation_duration_chart}"
+    chart_id = module.charts.slx_operation_duration_chart
     width = 4
     height = 1
     row = 0
     column = 4
   }
   chart {
-    chart_id = "${module.charts.slx_error_rate_chart}"
+    chart_id = module.charts.slx_error_rate_chart
     width = 4
     height = 1
     row = 0
     column = 8
   }
   chart {
-    chart_id = "${module.charts.slx_success_ratio_instant_chart}"
+    chart_id = module.charts.slx_success_ratio_instant_chart
     width = 4
     height = 1
     row = 1
     column = 0
   }
   chart {
-    chart_id = "${module.charts.slx_operation_duration_instant_chart}"
+    chart_id = module.charts.slx_operation_duration_instant_chart
     width = 4
     height = 1
     row = 1
     column = 4
   }
   chart {
-    chart_id = "${module.charts.slx_total_errors_instant_chart}"
+    chart_id = module.charts.slx_total_errors_instant_chart
     width = 4
     height = 1
     row = 1
     column = 8
   }
   chart {
-    chart_id = "${module.charts.slx_total_rate_chart}"
+    chart_id = module.charts.slx_total_rate_chart
     width = 4
     height = 1
     row = 2
     column = 0
   }
   chart {
-    chart_id = "${module.charts.slx_error_budget_chart}"
+    chart_id = module.charts.slx_error_budget_chart
     width = 4
     height = 1
     row = 2
@@ -153,7 +153,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart_ERROR" {
 
   axis_left {
     max_value = 100
-    low_watermark = "${var.operation_success_ratio_slo_target}"
+    low_watermark = var.operation_success_ratio_slo_target
     low_watermark_label = "Target SLO ${var.operation_success_ratio_slo_target}%"
   }
 
@@ -201,39 +201,39 @@ resource "signalfx_single_value_chart" "slx_total_errors_instant_chart_ERROR" {
 
 resource "signalfx_dashboard" "slx_error_dashboard" {
   name            = "${var.service_name} Error Investigation"
-  dashboard_group = "${signalfx_dashboard_group.slx_dashboard_group.id}"
+  dashboard_group = signalfx_dashboard_group.slx_dashboard_group.id
   time_range      = "-1h"
 
   chart {
-    chart_id = "${signalfx_time_chart.slx_success_ratio_chart_ERROR.id}"
+    chart_id = signalfx_time_chart.slx_success_ratio_chart_ERROR.id
     width = 4
     height = 1
     row = 0
     column = 0
   }
   chart {
-    chart_id = "${signalfx_time_chart.slx_total_errors_chart_ERROR.id}"
+    chart_id = signalfx_time_chart.slx_total_errors_chart_ERROR.id
     width = 4
     height = 1
     row = 0
     column = 4
   }
   chart {
-    chart_id = "${signalfx_single_value_chart.slx_total_errors_instant_chart_ERROR.id}"
+    chart_id = signalfx_single_value_chart.slx_total_errors_instant_chart_ERROR.id
     width = 4
     height = 1
     row = 0
     column = 8
   }
   chart {
-    chart_id = "${signalfx_time_chart.slx_error_type_chart.id}"
+    chart_id = signalfx_time_chart.slx_error_type_chart.id
     width = 6
     height = 1
     row = 1
     column = 0
   }
   chart {
-    chart_id = "${signalfx_list_chart.slx_error_list_chart.id}"
+    chart_id = signalfx_list_chart.slx_error_list_chart.id
     width = 6
     height = 1
     row = 1
@@ -311,7 +311,7 @@ resource "signalfx_time_chart" "error_budget_hourly_chart" {
   on_chart_legend_dimension = "plot_label"
 
   axis_left {
-    low_watermark = "${var.operation_success_ratio_slo_target / 100}"
+    low_watermark = var.operation_success_ratio_slo_target / 100
     low_watermark_label = "Target SLO = ${var.operation_success_ratio_slo_target}%"
     max_value = 100
   }
@@ -336,11 +336,11 @@ resource "signalfx_time_chart" "error_budget_hourly_chart" {
 
 resource "signalfx_dashboard" "slx_error_budget_dashboard" {
   name            = "${var.service_name} Error Budget"
-  dashboard_group = "${signalfx_dashboard_group.slx_dashboard_group.id}"
+  dashboard_group = signalfx_dashboard_group.slx_dashboard_group.id
   time_range      = "-1w"
 
   chart {
-    chart_id = "${signalfx_text_chart.error_budget_explanation.id}"
+    chart_id = signalfx_text_chart.error_budget_explanation.id
     width = 2
     height = 1
     row = 0
@@ -348,7 +348,7 @@ resource "signalfx_dashboard" "slx_error_budget_dashboard" {
   }
 
   chart {
-    chart_id = "${signalfx_time_chart.error_budget_hourly_chart.id}"
+    chart_id = signalfx_time_chart.error_budget_hourly_chart.id
     width = 10
     height = 1
     row = 0

@@ -14,7 +14,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
 
   axis_left {
     max_value = 100
-    low_watermark = "${var.operation_success_ratio_slo_target}"
+    low_watermark = var.operation_success_ratio_slo_target
     low_watermark_label = "Target SLO ${var.operation_success_ratio_slo_target}%"
   }
 
@@ -36,13 +36,13 @@ resource "signalfx_time_chart" "slx_operation_duration_chart" {
   show_data_markers = false
 
   axis_left {
-    low_watermark = "${var.operation_time_slo_target}"
+    low_watermark = var.operation_time_slo_target
     low_watermark_label = "Target SLO ${var.operation_time_slo_target} ${var.operation_time_sli_unit}s"
   }
 
   viz_options {
     label = "Operation Duration"
-    value_unit = "${var.operation_time_sli_unit}"
+    value_unit = var.operation_time_sli_unit
   }
 }
 
@@ -84,11 +84,11 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
     is_timestamp_hidden = true
     color_by = "Scale"
     color_scale {
-      lt = "${var.operation_success_ratio_slo_target}"
+      lt = var.operation_success_ratio_slo_target
       color =  "orange"
     }
     color_scale {
-      gte = "${var.operation_success_ratio_slo_target}"
+      gte = var.operation_success_ratio_slo_target
       color = "green"
     }
 }
@@ -104,7 +104,7 @@ resource "signalfx_single_value_chart" "slx_operation_duration_instant_chart" {
 
     viz_options {
       label = "Operation Duration"
-      value_unit = "${var.operation_time_sli_unit}"
+      value_unit = var.operation_time_sli_unit
     }
 
     refresh_interval = 1
@@ -112,11 +112,11 @@ resource "signalfx_single_value_chart" "slx_operation_duration_instant_chart" {
     is_timestamp_hidden = true
     color_by = "Scale"
     color_scale {
-      gt = "${var.operation_time_slo_target}"
+      gt = var.operation_time_slo_target
       color =  "orange"
     }
     color_scale {
-      lte = "${var.operation_time_slo_target}"
+      lte = var.operation_time_slo_target
       color = "green"
     }
 }
@@ -167,7 +167,7 @@ resource "signalfx_time_chart" "error_budget_hourly_chart" {
   axes_include_zero = true
 
   axis_left {
-    low_watermark = "${var.operation_success_ratio_slo_target / 100}"
+    low_watermark = var.operation_success_ratio_slo_target / 100
     low_watermark_label = "Target SLO = ${var.operation_success_ratio_slo_target}%"
     max_value = 1
   }
