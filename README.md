@@ -29,7 +29,7 @@ By using this module you get the following great features:
   * visualization on main dashboard
   * detector that issues `info` level alerts to team
 * support for adding your own important charts below the built in content
-* situational awareness improvements like
+* situational awareness
   * deploy events
   * feature flag events
 
