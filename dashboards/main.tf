@@ -10,6 +10,7 @@ module "charts" {
   operation_time_sli_unit               = "${var.operation_time_sli_unit}"
   operation_time_slo_target             = "${var.operation_time_slo_target}"
   operation_success_ratio_slo_target    = "${var.operation_success_ratio_slo_target}"
+  operation_slo_success_ratio_detector_id  = "${var.operation_slo_success_ratio_detector_id}"
 }
 
 resource "signalfx_dashboard_group" "slx_dashboard_group" {
@@ -88,7 +89,7 @@ resource "signalfx_dashboard" "slx_primary_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["farts"]
+      values = ["Pick a service"]
     }
   }
 
@@ -100,7 +101,7 @@ resource "signalfx_dashboard" "slx_primary_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["farts"]
+      values = ["Pick a service"]
     }
   }
 
@@ -109,7 +110,7 @@ resource "signalfx_dashboard" "slx_primary_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["farts"]
+      values = ["Pick a service"]
     }
   }
 }
@@ -144,6 +145,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart_ERROR" {
         A = ${var.successful_operations_sli_count_query}.publish(label='Successful Operations', enable=False)
         B = ${var.total_operations_sli_count_query}.publish(label='Total Operations', enable=False)
         C = ((A/B)*100).publish(label='Success Ratio')
+        D = alerts(detector_id='${var.operation_slo_success_ratio_detector_id}').publish(label='D')
         EOF
 
   plot_type         = "LineChart"

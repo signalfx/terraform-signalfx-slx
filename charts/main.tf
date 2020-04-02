@@ -6,6 +6,7 @@ resource "signalfx_time_chart" "slx_success_ratio_chart" {
         A = ${var.successful_operations_sli_count_query}.publish(label='Successful Operations', enable=False)
         B = ${var.total_operations_sli_count_query}.publish(label='Total Operations', enable=False)
         C = ((A/B)*100).publish(label='Success Ratio')
+        D = alerts(detector_id='${var.operation_slo_success_ratio_detector_id}').publish(label='D')
         EOF
 
   plot_type         = "LineChart"
@@ -68,6 +69,7 @@ resource "signalfx_single_value_chart" "slx_success_ratio_instant_chart" {
         A = ${var.successful_operations_sli_count_query}.publish(label='Successful Operations', enable=False)
         B = ${var.total_operations_sli_count_query}.publish(label='Total Operations', enable=False)
         C = ((A/B)*100).publish(label='Success Ratio')
+        D = alerts(detector_id='${var.operation_slo_success_ratio_detector_id}').publish(label='D')
         EOF
 
     description = "Colored by SLO (${var.operation_success_ratio_slo_target}%)"

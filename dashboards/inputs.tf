@@ -33,3 +33,7 @@ variable "operation_time_slo_target" {
 variable "operation_success_ratio_slo_target" {
   description = "A constant value representing the desired (SLO) success ratio"
 }
+
+variable "operation_slo_success_ratio_detector_id" {
+  description = "SLO Success Ratio Detector ID"
+}
