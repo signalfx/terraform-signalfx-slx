@@ -89,7 +89,7 @@ resource "signalfx_dashboard" "slx_primary_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["Pick a service"]
+      values = [var.service_name]
     }
   }
 
@@ -101,7 +101,7 @@ resource "signalfx_dashboard" "slx_primary_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["Pick a service"]
+      values = [var.service_name]
     }
   }
 
@@ -110,7 +110,7 @@ resource "signalfx_dashboard" "slx_primary_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["Pick a service"]
+      values = [var.service_name]
     }
   }
 }
@@ -249,7 +249,7 @@ resource "signalfx_dashboard" "slx_error_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["farts"]
+      values = [var.service_name]
     }
   }
 
@@ -258,7 +258,7 @@ resource "signalfx_dashboard" "slx_error_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["farts"]
+      values = [var.service_name]
     }
   }
 
@@ -270,7 +270,7 @@ resource "signalfx_dashboard" "slx_error_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["farts"]
+      values = [var.service_name]
     }
   }
 
@@ -279,7 +279,7 @@ resource "signalfx_dashboard" "slx_error_dashboard" {
     type = "eventTimeSeries"
     source {
       property = "service"
-      values = ["farts"]
+      values = [var.service_name]
     }
   }
 }
