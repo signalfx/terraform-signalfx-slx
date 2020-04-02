@@ -96,12 +96,20 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 }
 ```
 
+# Events
+
+To work with the deploy and feature flag events, use the following event names:
+
+* `Deploy` for deploys with tag `service` that matches the service name argument
+* `Feature Flag` for feature flags with tag `service` that matches the service name argument
+
 # TODO
 
 * Write some accompanying content
 * Template vars?
 * More IA (service dashboards, etc)
 * Runbooks
+* Customizable event signal definitions
 
 # PROBLEMS
 
