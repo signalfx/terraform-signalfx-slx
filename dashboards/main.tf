@@ -1,22 +1,23 @@
 module "charts" {
   source = "../charts"
 
-  service_name                          = var.service_name
-  responsible_team                      = var.responsible_team
-  successful_operations_sli_count_query = var.successful_operations_sli_count_query
-  total_operations_sli_count_query      = var.total_operations_sli_count_query
-  error_operations_sli_count_query      = var.error_operations_sli_count_query
-  operation_time_sli_query              = var.operation_time_sli_query
-  operation_time_sli_unit               = var.operation_time_sli_unit
-  operation_time_slo_target             = var.operation_time_slo_target
-  operation_success_ratio_slo_target    = var.operation_success_ratio_slo_target
-  operation_slo_success_ratio_detector_id  = var.operation_slo_success_ratio_detector_id
+  service_name                            = var.service_name
+  responsible_team                        = var.responsible_team
+  successful_operations_sli_count_query   = var.successful_operations_sli_count_query
+  total_operations_sli_count_query        = var.total_operations_sli_count_query
+  error_operations_sli_count_query        = var.error_operations_sli_count_query
+  operation_time_sli_query                = var.operation_time_sli_query
+  operation_time_sli_unit                 = var.operation_time_sli_unit
+  operation_time_slo_target               = var.operation_time_slo_target
+  operation_success_ratio_slo_target      = var.operation_success_ratio_slo_target
+  operation_slo_success_ratio_detector_id = var.operation_slo_success_ratio_detector_id
+  operation_duration_slo_detector_id      = var.operation_duration_slo_detector_id
 }
 
 resource "signalfx_dashboard_group" "slx_dashboard_group" {
-    name = "${var.service_name} Service Dashboard"
-    description = "Dashboards for ${var.service_name}"
-    teams = [var.responsible_team]
+  name        = "${var.service_name} Service Dashboard"
+  description = "Dashboards for ${var.service_name}"
+  teams       = [var.responsible_team]
 }
 
 resource "signalfx_dashboard" "slx_primary_dashboard" {
@@ -26,91 +27,91 @@ resource "signalfx_dashboard" "slx_primary_dashboard" {
 
   chart {
     chart_id = module.charts.slx_success_ratio_chart
-    width = 4
-    height = 1
-    row = 0
-    column = 0
+    width    = 4
+    height   = 1
+    row      = 0
+    column   = 0
   }
   chart {
     chart_id = module.charts.slx_operation_duration_chart
-    width = 4
-    height = 1
-    row = 0
-    column = 4
+    width    = 4
+    height   = 1
+    row      = 0
+    column   = 4
   }
   chart {
     chart_id = module.charts.slx_error_rate_chart
-    width = 4
-    height = 1
-    row = 0
-    column = 8
+    width    = 4
+    height   = 1
+    row      = 0
+    column   = 8
   }
   chart {
     chart_id = module.charts.slx_success_ratio_instant_chart
-    width = 4
-    height = 1
-    row = 1
-    column = 0
+    width    = 4
+    height   = 1
+    row      = 1
+    column   = 0
   }
   chart {
     chart_id = module.charts.slx_operation_duration_instant_chart
-    width = 4
-    height = 1
-    row = 1
-    column = 4
+    width    = 4
+    height   = 1
+    row      = 1
+    column   = 4
   }
   chart {
     chart_id = module.charts.slx_total_errors_instant_chart
-    width = 4
-    height = 1
-    row = 1
-    column = 8
+    width    = 4
+    height   = 1
+    row      = 1
+    column   = 8
   }
   chart {
     chart_id = module.charts.slx_total_rate_chart
-    width = 4
-    height = 1
-    row = 2
-    column = 0
+    width    = 4
+    height   = 1
+    row      = 2
+    column   = 0
   }
   chart {
     chart_id = module.charts.slx_error_budget_chart
-    width = 4
-    height = 1
-    row = 2
-    column = 4
+    width    = 4
+    height   = 1
+    row      = 2
+    column   = 4
   }
 
   event_overlay {
-    line = true
-    label = "Feature Flag Changes"
-    color = "azure"
+    line   = true
+    label  = "Feature Flag Changes"
+    color  = "azure"
     signal = "Feature Flag"
-    type = "eventTimeSeries"
+    type   = "eventTimeSeries"
     source {
       property = "service"
-      values = [var.service_name]
+      values   = [var.service_name]
     }
   }
 
   event_overlay {
-    line = true
-    label = "Deploys"
-    color = "green"
+    line   = true
+    label  = "Deploys"
+    color  = "green"
     signal = "Deploy"
-    type = "eventTimeSeries"
+    type   = "eventTimeSeries"
     source {
       property = "service"
-      values = [var.service_name]
+      values   = [var.service_name]
     }
   }
 
   selected_event_overlay {
     signal = "Deploy"
-    type = "eventTimeSeries"
+    type   = "eventTimeSeries"
     source {
       property = "service"
-      values = [var.service_name]
+      values   = [var.service_name]
     }
   }
 }
@@ -122,7 +123,7 @@ resource "signalfx_time_chart" "slx_error_type_chart" {
         A = data('errors_encountered_total').publish(label='Errors')
         EOF
 
-  plot_type         = "ColumnChart"
+  plot_type = "ColumnChart"
 
   viz_options {
     label = "Errors"
@@ -138,7 +139,7 @@ resource "signalfx_list_chart" "slx_error_list_chart" {
 }
 
 resource "signalfx_time_chart" "slx_success_ratio_chart_ERROR" {
-  name = "Success Ratio"
+  name        = "Success Ratio"
   description = "Ratio of successes to total operations."
 
   program_text = <<-EOF
@@ -152,13 +153,13 @@ resource "signalfx_time_chart" "slx_success_ratio_chart_ERROR" {
   show_data_markers = false
 
   axis_left {
-    max_value = 100
-    low_watermark = var.operation_success_ratio_slo_target
+    max_value           = 100
+    low_watermark       = var.operation_success_ratio_slo_target
     low_watermark_label = "Target SLO ${var.operation_success_ratio_slo_target}%"
   }
 
   viz_options {
-    label = "Success Ratio"
+    label        = "Success Ratio"
     value_suffix = "%"
   }
 }
@@ -180,23 +181,23 @@ resource "signalfx_time_chart" "slx_total_errors_chart_ERROR" {
 }
 
 resource "signalfx_single_value_chart" "slx_total_errors_instant_chart_ERROR" {
-    name = "Current Error Rate"
+  name = "Current Error Rate"
 
-    program_text = <<-EOF
+  program_text = <<-EOF
         A = ${var.error_operations_sli_count_query}.publish(label='Errors')
         EOF
 
-    description = "Rate of Errors"
+  description = "Rate of Errors"
 
-    refresh_interval = 1
-    max_precision = 2
-    is_timestamp_hidden = true
+  refresh_interval    = 1
+  max_precision       = 2
+  is_timestamp_hidden = true
 
-    viz_options {
-      label = "Errors"
-      color = "orange"
-      value_suffix = "errors/sec"
-    }
+  viz_options {
+    label        = "Errors"
+    color        = "orange"
+    value_suffix = "errors/sec"
+  }
 }
 
 resource "signalfx_dashboard" "slx_error_dashboard" {
@@ -206,93 +207,93 @@ resource "signalfx_dashboard" "slx_error_dashboard" {
 
   chart {
     chart_id = signalfx_time_chart.slx_success_ratio_chart_ERROR.id
-    width = 4
-    height = 1
-    row = 0
-    column = 0
+    width    = 4
+    height   = 1
+    row      = 0
+    column   = 0
   }
   chart {
     chart_id = signalfx_time_chart.slx_total_errors_chart_ERROR.id
-    width = 4
-    height = 1
-    row = 0
-    column = 4
+    width    = 4
+    height   = 1
+    row      = 0
+    column   = 4
   }
   chart {
     chart_id = signalfx_single_value_chart.slx_total_errors_instant_chart_ERROR.id
-    width = 4
-    height = 1
-    row = 0
-    column = 8
+    width    = 4
+    height   = 1
+    row      = 0
+    column   = 8
   }
   chart {
     chart_id = signalfx_time_chart.slx_error_type_chart.id
-    width = 6
-    height = 1
-    row = 1
-    column = 0
+    width    = 6
+    height   = 1
+    row      = 1
+    column   = 0
   }
   chart {
     chart_id = signalfx_list_chart.slx_error_list_chart.id
-    width = 6
-    height = 1
-    row = 1
-    column = 6
+    width    = 6
+    height   = 1
+    row      = 1
+    column   = 6
   }
 
 
   event_overlay {
-    line = true
-    label = "Feature Flag Changes"
-    color = "azure"
+    line   = true
+    label  = "Feature Flag Changes"
+    color  = "azure"
     signal = "Feature Flag"
-    type = "eventTimeSeries"
+    type   = "eventTimeSeries"
     source {
       property = "service"
-      values = [var.service_name]
+      values   = [var.service_name]
     }
   }
 
   selected_event_overlay {
     signal = "Feature Flag"
-    type = "eventTimeSeries"
+    type   = "eventTimeSeries"
     source {
       property = "service"
-      values = [var.service_name]
+      values   = [var.service_name]
     }
   }
 
   event_overlay {
-    line = true
-    label = "Deploys"
-    color = "green"
+    line   = true
+    label  = "Deploys"
+    color  = "green"
     signal = "Deploy"
-    type = "eventTimeSeries"
+    type   = "eventTimeSeries"
     source {
       property = "service"
-      values = [var.service_name]
+      values   = [var.service_name]
     }
   }
 
   selected_event_overlay {
     signal = "Deploy"
-    type = "eventTimeSeries"
+    type   = "eventTimeSeries"
     source {
       property = "service"
-      values = [var.service_name]
+      values   = [var.service_name]
     }
   }
 }
 
 resource "signalfx_text_chart" "error_budget_explanation" {
-  name = "Error Budget Consumption"
+  name     = "Error Budget Consumption"
   markdown = <<-EOF
   Evaluates the error budget, by day, and compares to same day, previous week. Also calculates a difference as a line for easy comparison.
   EOF
 }
 
 resource "signalfx_time_chart" "error_budget_hourly_chart" {
-  name = "Error Budget Consumption, Daily"
+  name        = "Error Budget Consumption, Daily"
   description = "Percentage of error budget consumed, by day."
 
   program_text = <<-EOF
@@ -305,31 +306,31 @@ resource "signalfx_time_chart" "error_budget_hourly_chart" {
     G = (F-C).publish(label='Daily Change (Previous - Current)')
     EOF
 
-  plot_type         = "ColumnChart"
-  show_data_markers = false
-  axes_include_zero = true
+  plot_type                 = "ColumnChart"
+  show_data_markers         = false
+  axes_include_zero         = true
   on_chart_legend_dimension = "plot_label"
 
   axis_left {
-    low_watermark = var.operation_success_ratio_slo_target / 100
+    low_watermark       = var.operation_success_ratio_slo_target / 100
     low_watermark_label = "Target SLO = ${var.operation_success_ratio_slo_target}%"
-    max_value = 100
+    max_value           = 100
   }
 
   viz_options {
-    label = "Budget Consumed"
+    label        = "Budget Consumed"
     value_suffix = "%"
-    color = "blue"
+    color        = "blue"
   }
   viz_options {
-    label = "Previous Week"
+    label        = "Previous Week"
     value_suffix = "%"
-    color = "azure"
+    color        = "azure"
   }
   viz_options {
-    label = "Daily Change (Previous - Current)"
-    axis = "right"
-    color = "violet"
+    label     = "Daily Change (Previous - Current)"
+    axis      = "right"
+    color     = "violet"
     plot_type = "LineChart"
   }
 }
@@ -341,17 +342,17 @@ resource "signalfx_dashboard" "slx_error_budget_dashboard" {
 
   chart {
     chart_id = signalfx_text_chart.error_budget_explanation.id
-    width = 2
-    height = 1
-    row = 0
-    column = 0
+    width    = 2
+    height   = 1
+    row      = 0
+    column   = 0
   }
 
   chart {
     chart_id = signalfx_time_chart.error_budget_hourly_chart.id
-    width = 10
-    height = 1
-    row = 0
-    column = 2
+    width    = 10
+    height   = 1
+    row      = 0
+    column   = 2
   }
 }

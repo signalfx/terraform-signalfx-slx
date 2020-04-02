@@ -23,12 +23,15 @@ By using this module you get the following great features:
 * alerting based on SLO violations
   * configurable (defaults to 1m) notification of SLO violations
   * detectors notify team to leverage [notification policies](https://docs.signalfx.com/en/latest/managing/teams/team-notifications.html)
-  * alerts are linked to relevant charts in dashboards
+  * alerts are linked to relevant charts in dashboards for signaling problems
 * error budget support
   * uses the error ratio (97% success SLO gives a 3% error budget)
   * visualization on main dashboard
   * detector that issues `info` level alerts to team
 * support for adding your own important charts below the built in content
+* situational awareness improvements like
+  * deploy events
+  * feature flag events
 
 # How to Use It
 
@@ -97,9 +100,6 @@ resource "signalfx_dashboard" "slx_prefixed_thing" {
 
 * Write some accompanying content
 * Template vars?
-* Chart<>Detector Linking
-* Get more opinionated on dashboards, like don't mixin but use groups-per-service
-* Deploys
 * More IA (service dashboards, etc)
 * Runbooks
 

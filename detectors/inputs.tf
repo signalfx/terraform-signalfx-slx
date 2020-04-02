@@ -32,7 +32,7 @@ variable "operation_time_slo_target" {
 
 variable "operation_time_slo_duration" {
   description = "How long to wait before notifying about operation time SLO violation"
-  default = "1m"
+  default     = "1m"
 }
 
 variable "operation_success_ratio_slo_target" {
@@ -41,5 +41,5 @@ variable "operation_success_ratio_slo_target" {
 
 variable "operation_success_ratio_slo_duration" {
   description = "How long to wait before notifying about success ratio SLO violation"
-  default = "1m"
+  default     = "1m"
 }
