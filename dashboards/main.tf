@@ -297,11 +297,11 @@ resource "signalfx_time_chart" "error_budget_hourly_chart" {
   description = "Percentage of error budget consumed, by day."
 
   program_text = <<-EOF
-    A = ${var.error_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=True).publish(label='Failed Operations', enable=False)
-    B = ${var.total_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=True).publish(label='Total Operations', enable=False)
+    A = ${var.error_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).publish(label='Failed Operations', enable=False)
+    B = ${var.total_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).publish(label='Total Operations', enable=False)
     C = (((A/B)/${100.0 - var.operation_success_ratio_slo_target})*10000).publish(label='Budget Consumed')
-    D = data('errors_encountered_total').sum().sum(cycle='day', cycle_start='0h', partial_values=True).timeshift('1d').publish(label='Failed Operations, Previous Week', enable=False)
-    E = data('request_duration_millis_count').sum().sum(cycle='day', cycle_start='0h', partial_values=True).timeshift('1d').publish(label='Total Operations, Previous Week', enable=False)
+    D = ${var.error_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).timeshift('1d').publish(label='Failed Operations, Previous Week', enable=False)
+    E = ${var.total_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).timeshift('1d').publish(label='Total Operations, Previous Week', enable=False)
     F = (((D/E)/3)*10000).publish(label='Previous Week')
     G = (F-C).publish(label='Daily Change (Previous - Current)')
     EOF
