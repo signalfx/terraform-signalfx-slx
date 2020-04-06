@@ -292,6 +292,25 @@ resource "signalfx_text_chart" "error_budget_explanation" {
   EOF
 }
 
+resource "signalfx_time_chart" "error_budget_burndown" {
+  name = "Error Budget Burndown"
+  description = "Percentage of budget remaining, rolling 1 day window"
+
+  program_text = <<-EOF
+    A = ${var.error_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).publish(label='Failed Operations', enable=False)
+    B = ${var.total_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).publish(label='Total Operations', enable=False)
+    ERROR_RATIO = ((A/B)*100).publish(label='C', enable=False)
+    VIOLATIONS = ERROR_RATIO.map(lambda x: 1 if x >= ${100.0 - var.operation_success_ratio_slo_target} else 0).sum(over='1d').publish(label='Violations', enable=False)
+    HOURS = const(1).sum(over='1d')
+    RESULT = ((VIOLATIONS/HOURS)*100).publish('% of hours in violation over last day')
+    EOF
+
+    plot_type                 = "ColumnChart"
+    show_data_markers         = false
+    axes_include_zero         = true
+    on_chart_legend_dimension = "plot_label"
+}
+
 resource "signalfx_time_chart" "error_budget_hourly_chart" {
   name        = "Error Budget Consumption, Daily"
   description = "Percentage of error budget consumed, by day."
@@ -341,10 +360,18 @@ resource "signalfx_dashboard" "slx_error_budget_dashboard" {
   time_range      = "-1w"
 
   chart {
+    chart_id = signalfx_time_chart.error_budget_burndown.id
+    width    = 11
+    height   = 1
+    row      = 0
+    column   = 0
+  }
+
+  chart {
     chart_id = signalfx_text_chart.error_budget_explanation.id
     width    = 2
     height   = 1
-    row      = 0
+    row      = 1
     column   = 0
   }
 
@@ -352,7 +379,7 @@ resource "signalfx_dashboard" "slx_error_budget_dashboard" {
     chart_id = signalfx_time_chart.error_budget_hourly_chart.id
     width    = 10
     height   = 1
-    row      = 0
+    row      = 1
     column   = 2
   }
 }
