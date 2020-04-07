@@ -74,13 +74,6 @@ resource "signalfx_dashboard" "slx_primary_dashboard" {
     row      = 2
     column   = 0
   }
-  chart {
-    chart_id = module.charts.slx_error_budget_chart
-    width    = 4
-    height   = 1
-    row      = 2
-    column   = 4
-  }
 
   event_overlay {
     line   = true
@@ -285,101 +278,59 @@ resource "signalfx_dashboard" "slx_error_dashboard" {
   }
 }
 
-resource "signalfx_text_chart" "error_budget_explanation" {
+resource "signalfx_text_chart" "error_budget_hourly_burndown_explanation" {
   name     = "Error Budget Consumption"
   markdown = <<-EOF
-  Evaluates the error budget, by day, and compares to same day, previous week. Also calculates a difference as a line for easy comparison.
+  Evaluates the error budget, by hour, and computes the remaining error budget as a rolling 1 day window. **Only accurate for windows of -3d or less**.
   EOF
 }
 
-resource "signalfx_time_chart" "error_budget_burndown" {
+resource "signalfx_time_chart" "error_budget_hourly_burndown" {
   name = "Error Budget Burndown"
-  description = "Percentage of budget remaining, rolling 1 day window"
+  description = "Percentage of budget remaining"
 
   program_text = <<-EOF
-    A = ${var.error_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).publish(label='Failed Operations', enable=False)
-    B = ${var.total_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).publish(label='Total Operations', enable=False)
-    ERROR_RATIO = ((A/B)*100).publish(label='C', enable=False)
+    A = ${var.error_operations_sli_count_query}.sum(over='1h').publish(label='Failed Operations', enable=False)
+    B = ${var.total_operations_sli_count_query}.sum(over='1h').publish(label='Total Operations', enable=False)
+    ERROR_RATIO = ((A/B)*100).publish(label='Error Ratio', enable=False)
+    # Convert each error ratio to a binary value
     VIOLATIONS = ERROR_RATIO.map(lambda x: 1 if x >= ${100.0 - var.operation_success_ratio_slo_target} else 0).sum(over='1d').publish(label='Violations', enable=False)
+    # Calculate a fixed value for the window
     HOURS = const(1).sum(over='1d')
-    RESULT = ((VIOLATIONS/HOURS)*100).publish('% of hours in violation over last day')
+    # Divide violations by hours, invert via subtraction from 1 and convert to %
+    RESULT = ((1-(VIOLATIONS/HOURS))*100).publish('Budget Remaining')
     EOF
 
     plot_type                 = "ColumnChart"
     show_data_markers         = false
     axes_include_zero         = true
-    on_chart_legend_dimension = "plot_label"
-}
+    time_range = 4320
 
-resource "signalfx_time_chart" "error_budget_hourly_chart" {
-  name        = "Error Budget Consumption, Daily"
-  description = "Percentage of error budget consumed, by day."
-
-  program_text = <<-EOF
-    A = ${var.error_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).publish(label='Failed Operations', enable=False)
-    B = ${var.total_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).publish(label='Total Operations', enable=False)
-    C = (((A/B)/${100.0 - var.operation_success_ratio_slo_target})*10000).publish(label='Budget Consumed')
-    D = ${var.error_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).timeshift('1d').publish(label='Failed Operations, Previous Week', enable=False)
-    E = ${var.total_operations_sli_count_query}.sum(cycle='day', cycle_start='0h', partial_values=False).timeshift('1d').publish(label='Total Operations, Previous Week', enable=False)
-    F = (((D/E)/3)*10000).publish(label='Previous Week')
-    G = (F-C).publish(label='Daily Change (Previous - Current)')
-    EOF
-
-  plot_type                 = "ColumnChart"
-  show_data_markers         = false
-  axes_include_zero         = true
-  on_chart_legend_dimension = "plot_label"
-
-  axis_left {
-    low_watermark       = var.operation_success_ratio_slo_target / 100
-    low_watermark_label = "Target SLO = ${var.operation_success_ratio_slo_target}%"
-    max_value           = 100
-  }
-
-  viz_options {
-    label        = "Budget Consumed"
-    value_suffix = "%"
-    color        = "blue"
-  }
-  viz_options {
-    label        = "Previous Week"
-    value_suffix = "%"
-    color        = "azure"
-  }
-  viz_options {
-    label     = "Daily Change (Previous - Current)"
-    axis      = "right"
-    color     = "violet"
-    plot_type = "LineChart"
-  }
+    viz_options {
+      label        = "Budget Remaining"
+      value_suffix = "%"
+      color        = "blue"
+    }
 }
 
 resource "signalfx_dashboard" "slx_error_budget_dashboard" {
   name            = "${var.service_name} Error Budget"
   dashboard_group = signalfx_dashboard_group.slx_dashboard_group.id
-  time_range      = "-1w"
+  time_range      = "-3d"
 
   chart {
-    chart_id = signalfx_time_chart.error_budget_burndown.id
-    width    = 11
+    chart_id = signalfx_text_chart.error_budget_hourly_burndown_explanation.id
+    width    = 2
     height   = 1
     row      = 0
     column   = 0
   }
 
   chart {
-    chart_id = signalfx_text_chart.error_budget_explanation.id
-    width    = 2
-    height   = 1
-    row      = 1
-    column   = 0
-  }
-
-  chart {
-    chart_id = signalfx_time_chart.error_budget_hourly_chart.id
+    chart_id = signalfx_time_chart.error_budget_hourly_burndown.id
     width    = 10
     height   = 1
-    row      = 1
+    row      = 0
     column   = 2
   }
 }

@@ -153,29 +153,3 @@ resource "signalfx_time_chart" "slx_total_rate_chart" {
   plot_type         = "LineChart"
   show_data_markers = false
 }
-
-resource "signalfx_time_chart" "error_budget_hourly_chart" {
-  name        = "Error Budget Consumption, Hourly"
-  description = "Percentage of error budget consumed, by hour. Requires >1H time window"
-
-  program_text = <<-EOF
-    A = ${var.error_operations_sli_count_query}.sum(cycle='hour', cycle_start='0m', partial_values=True).publish(label='Failed Operations', enable=False)
-    B = ${var.total_operations_sli_count_query}.sum(cycle='hour', cycle_start='0m', partial_values=True).publish(label='Total Operations', enable=False)
-    C = (((A/B)/${100.0 - var.operation_success_ratio_slo_target})*100).publish(label='Percentage of Error Budget Consumed')
-    EOF
-
-  plot_type         = "ColumnChart"
-  show_data_markers = false
-  axes_include_zero = true
-
-  axis_left {
-    low_watermark       = var.operation_success_ratio_slo_target / 100
-    low_watermark_label = "Target SLO = ${var.operation_success_ratio_slo_target}%"
-    max_value           = 1
-  }
-
-  viz_options {
-    label        = "Percentage of Error Budget Consumed"
-    value_suffix = "%"
-  }
-}

@@ -25,7 +25,3 @@ output "slx_total_rate_chart" {
 output "slx_error_rate_chart" {
   value = "${signalfx_time_chart.slx_total_errors_chart.id}"
 }
-
-output "slx_error_budget_chart" {
-  value = "${signalfx_time_chart.error_budget_hourly_chart.id}"
-}
